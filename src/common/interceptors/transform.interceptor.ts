@@ -29,12 +29,19 @@ export class TransformInterceptor<T> implements NestInterceptor<
   ): Observable<ApiResponse<T>> {
     return next.handle().pipe(
       map((data) => {
-        // اگه data خودش قبلاً فرمت شده (مثل health check)، دست نزن
-        if (data && typeof data === 'object' && 'status' in data) {
+        // Health check responses (دارای status: 'ok' یا 'error')
+        if (
+          data &&
+          typeof data === 'object' &&
+          'status' in data &&
+          (data.status === 'ok' ||
+            data.status === 'error' ||
+            data.status === 'shutting_down')
+        ) {
           return data;
         }
 
-        // اگه data شامل pagination meta هست
+        // Paginated responses
         if (
           data &&
           typeof data === 'object' &&
@@ -43,11 +50,12 @@ export class TransformInterceptor<T> implements NestInterceptor<
         ) {
           return {
             success: true,
-            data: data.items,
-            meta: data.meta,
+            data: (data as { items: T; meta: ApiResponse<T>['meta'] }).items,
+            meta: (data as { items: T; meta: ApiResponse<T>['meta'] }).meta,
           };
         }
 
+        // همه چیز دیگه
         return {
           success: true,
           data,

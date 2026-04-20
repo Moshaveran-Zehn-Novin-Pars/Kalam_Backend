@@ -19,6 +19,7 @@ import {
   validateEnv,
   AppConfigService,
 } from './config';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import {
     RedisModule,
     HealthModule,
     AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [
