@@ -21,6 +21,9 @@ import {
 } from './config';
 import { UsersModule } from './modules/users/users.module';
 import { AddressesModule } from './modules/addresses/addresses.module';
+import { FarmersModule } from './modules/farmers/farmers.module';
+import { BuyersModule } from './modules/buyers/buyers.module';
+import { DriversModule } from './modules/drivers/drivers.module';
 
 @Module({
   imports: [
@@ -38,6 +41,9 @@ import { AddressesModule } from './modules/addresses/addresses.module';
     AuthModule,
     UsersModule,
     AddressesModule,
+    FarmersModule,
+    BuyersModule,
+    DriversModule,
   ],
   controllers: [AppController],
   providers: [
