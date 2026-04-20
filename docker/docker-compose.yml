@@ -1,0 +1,87 @@
+version: '3.9'
+
+services:
+  # ============================================
+  # PostgreSQL
+  # ============================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: kalam_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: kalam
+      POSTGRES_PASSWORD: kalam_dev
+      POSTGRES_DB: kalam_dev
+    ports:
+      - '5455:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U kalam -d kalam_dev']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - kalam_network
+
+  # ============================================
+  # Redis
+  # ============================================
+  redis:
+    image: redis:7-alpine
+    container_name: kalam_redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --requirepass kalam_redis_dev
+    healthcheck:
+      test: ['CMD', 'redis-cli', '-a', 'kalam_redis_dev', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - kalam_network
+
+  # ============================================
+  # MinIO (S3-compatible object storage)
+  # ============================================
+  minio:
+    image: minio/minio:latest
+    container_name: kalam_minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    ports:
+      - '9000:9000'   # API
+      - '9001:9001'   # Web Console
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ':9001'
+    healthcheck:
+      test: ['CMD', 'mc', 'ready', 'local']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - kalam_network
+
+# ============================================
+# Volumes
+# ============================================
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  minio_data:
+    driver: local
+
+# ============================================
+# Networks
+# ============================================
+networks:
+  kalam_network:
+    driver: bridge
