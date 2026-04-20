@@ -11,6 +11,7 @@ import {
   validateEnv,
   AppConfigService
 } from './config';
+import { PrismaModule } from './infrastructure/prisma/prisma.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import {
       ],
       validate: validateEnv,
     }),
+    PrismaModule,
     HealthModule,
   ],
   controllers: [AppController],

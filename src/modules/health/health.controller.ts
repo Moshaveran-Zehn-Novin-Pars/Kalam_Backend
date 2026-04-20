@@ -5,7 +5,9 @@ import {
     HealthCheckService,
     MemoryHealthIndicator,
     DiskHealthIndicator,
+    PrismaHealthIndicator,
 } from '@nestjs/terminus';
+import { PrismaService } from '../../infrastructure/prisma/prisma.service';
 
 @ApiTags('Health')
 @Controller('health')
@@ -14,13 +16,14 @@ export class HealthController {
         private readonly health: HealthCheckService,
         private readonly memory: MemoryHealthIndicator,
         private readonly disk: DiskHealthIndicator,
+        private readonly prismaHealth: PrismaHealthIndicator,
+        private readonly prisma: PrismaService,
     ) {}
 
     @Get()
     @HealthCheck()
     @ApiOperation({ summary: 'Check API health status' })
     check() {
-        // Windows path fix: use drive letter instead of '/'
         const diskPath = process.platform === 'win32' ? 'D:\\' : '/';
 
         return this.health.check([
@@ -31,6 +34,7 @@ export class HealthController {
                     path: diskPath,
                     thresholdPercent: 0.9,
                 }),
+            () => this.prismaHealth.pingCheck('database', this.prisma),
         ]);
     }
 
