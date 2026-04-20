@@ -1,29 +1,48 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { App } from 'supertest/types';
-import { AppModule } from './../src/app.module';
+import { createTestApp } from './utils';
 
-describe('AppController (e2e)', () => {
-  let app: INestApplication<App>;
+describe('App (e2e)', () => {
+  let app: INestApplication;
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication();
-    await app.init();
+  beforeAll(async () => {
+    app = await createTestApp();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
-  });
-
-  afterEach(async () => {
+  afterAll(async () => {
     await app.close();
+  });
+
+  describe('Health', () => {
+    it('GET /api/v1/health/ping → should return ok', async () => {
+      const res = await request(app.getHttpServer())
+        .get('/api/v1/health/ping')
+        .expect(200);
+
+      expect(res.body.status).toBe('ok');
+      expect(res.body.service).toBe('kalam-backend');
+      expect(res.body.timestamp).toBeDefined();
+    });
+
+    it('GET /api/v1/health → should return all services up', async () => {
+      const res = await request(app.getHttpServer())
+        .get('/api/v1/health')
+        .expect(200);
+
+      expect(res.body.status).toBe('ok');
+      expect(res.body.info.database.status).toBe('up');
+      expect(res.body.info.memory_heap.status).toBe('up');
+    });
+  });
+
+  describe('Not Found', () => {
+    it('GET /api/v1/not-found → should return 404', async () => {
+      const res = await request(app.getHttpServer())
+        .get('/api/v1/not-found')
+        .expect(404);
+
+      expect(res.body.success).toBe(false);
+      expect(res.body.error.code).toBe('NOT_FOUND');
+    });
   });
 });
