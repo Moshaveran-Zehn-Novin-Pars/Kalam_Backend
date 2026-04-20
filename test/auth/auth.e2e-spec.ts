@@ -1,15 +1,32 @@
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { createTestApp } from '../utils';
-import { testPrisma, cleanTestDatabase } from '../utils';
+import { cleanAuthTestData, createTestApp } from '../utils';
+import { testPrisma } from '../utils';
 import { UserRole, UserStatus } from '@prisma/client';
 import * as crypto from 'crypto';
+import { RedisService } from '../../src/infrastructure/redis/redis.service';
 
 describe('Auth (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
     app = await createTestApp();
+
+    const redisService = app.get(RedisService);
+    const testPhones = [
+      '09100000099',
+      '09100000088',
+      '09100000077',
+      '09100000066',
+    ];
+    for (const phone of testPhones) {
+      await redisService.del(`otp:rate:${phone}`);
+      await redisService.del(`otp:block:${phone}`);
+      await redisService.del(`otp:${phone}`);
+      await redisService.del(`otp:attempts:${phone}`);
+    }
+
+    await cleanAuthTestData();
 
     // Seed test users
     await testPrisma.user.createMany({
@@ -44,7 +61,7 @@ describe('Auth (e2e)', () => {
   });
 
   afterAll(async () => {
-    await cleanTestDatabase();
+    await cleanAuthTestData();
     await app.close();
   });
 
