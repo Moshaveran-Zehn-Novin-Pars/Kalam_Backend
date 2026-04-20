@@ -1,53 +1,66 @@
 import {
-    Injectable,
-    OnModuleInit,
-    OnModuleDestroy,
-    Logger,
+  Injectable,
+  OnModuleInit,
+  OnModuleDestroy,
+  Logger,
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class PrismaService
-    extends PrismaClient
-    implements OnModuleInit, OnModuleDestroy
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
 {
-    private readonly logger = new Logger(PrismaService.name);
+  private readonly logger = new Logger(PrismaService.name);
 
-    constructor() {
-        super({
-            log: [
-                { emit: 'event', level: 'query' },
-                { emit: 'stdout', level: 'error' },
-                { emit: 'stdout', level: 'warn' },
-            ],
-        });
-    }
+  constructor() {
+    super({
+      log: [
+        { emit: 'event', level: 'query' },
+        { emit: 'stdout', level: 'error' },
+        { emit: 'stdout', level: 'warn' },
+      ],
+    });
+  }
 
-    async onModuleInit() {
-        await this.$connect();
-        this.logger.log('Database connected successfully ✅');
+  async onModuleInit() {
+    await this.$connect();
+    this.logger.log('Database connected successfully ✅');
 
-        // Log queries only in development
-        if (process.env.NODE_ENV === 'development') {
-            (this as any).$on('query', (event: any) => {
-                this.logger.debug(`Query: ${event.query}`);
-                this.logger.debug(`Duration: ${event.duration}ms`);
-            });
+    // Log queries only in development
+    if (process.env.NODE_ENV === 'development') {
+      (
+        this as PrismaClient & {
+          $on: (
+            event: string,
+            cb: (e: { query: string; duration: number }) => void,
+          ) => void;
         }
+      ).$on('query', (event) => {
+        this.logger.debug(`Query: ${event.query}`);
+        this.logger.debug(`Duration: ${event.duration}ms`);
+      });
     }
+  }
 
-    async onModuleDestroy() {
-        await this.$disconnect();
-        this.logger.log('Database disconnected');
-    }
+  async onModuleDestroy() {
+    await this.$disconnect();
+    this.logger.log('Database disconnected');
+  }
 
-    /**
-     * Soft delete helper - sets deletedAt instead of removing record
-     */
-    async softDelete(model: string, id: string): Promise<void> {
-        await (this as any)[model].update({
-            where: { id },
-            data: { deletedAt: new Date() },
-        });
-    }
+  /**
+   * Soft delete helper - sets deletedAt instead of removing record
+   */
+  async softDelete(model: string, id: string): Promise<void> {
+    const delegate = (this as Record<string, unknown>)[model] as {
+      update: (args: {
+        where: { id: string };
+        data: { deletedAt: Date };
+      }) => Promise<unknown>;
+    };
+    await delegate.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
+  }
 }
