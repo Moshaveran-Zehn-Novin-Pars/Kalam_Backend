@@ -24,6 +24,8 @@ import { AddressesModule } from './modules/addresses/addresses.module';
 import { FarmersModule } from './modules/farmers/farmers.module';
 import { BuyersModule } from './modules/buyers/buyers.module';
 import { DriversModule } from './modules/drivers/drivers.module';
+import { CartModule } from './modules/cart/cart.module';
+import { OrdersModule } from './modules/orders/orders.module';
 
 @Module({
   imports: [
@@ -44,6 +46,8 @@ import { DriversModule } from './modules/drivers/drivers.module';
     FarmersModule,
     BuyersModule,
     DriversModule,
+    CartModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [
