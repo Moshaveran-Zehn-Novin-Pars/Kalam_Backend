@@ -24,7 +24,9 @@ module.exports = {
         },
         {
             displayName: 'e2e',
-            testMatch: ['<rootDir>/test/**/*.e2e-spec.ts'],
+            testMatch: [
+                '<rootDir>/test/**/*.e2e-spec.ts',
+            ],
             transform: {
                 '^.+\\.(t|j)s$': 'ts-jest',
             },
