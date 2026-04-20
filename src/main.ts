@@ -1,11 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AppModule } from './app.module';
 import { AppConfigService } from './config';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, {
+        // Disable default logger - Winston takes over
+        bufferLogs: true,
+    });
+
+    // ----------------------------------------
+    // Winston Logger (replaces NestJS default)
+    // ----------------------------------------
+    app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
     // ----------------------------------------
     // Config Service
@@ -13,7 +22,7 @@ async function bootstrap() {
     const config = app.get(AppConfigService);
 
     // ----------------------------------------
-    // Global API Prefix (e.g. /api/v1)
+    // Global API Prefix
     // ----------------------------------------
     app.setGlobalPrefix(config.apiPrefix);
 
@@ -42,7 +51,7 @@ async function bootstrap() {
     });
 
     // ----------------------------------------
-    // Swagger (فقط در development و staging)
+    // Swagger (non-production only)
     // ----------------------------------------
     if (!config.isProduction) {
         const swaggerConfig = new DocumentBuilder()

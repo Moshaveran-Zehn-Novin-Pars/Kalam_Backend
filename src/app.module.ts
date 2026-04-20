@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PrismaModule } from './infrastructure/prisma/prisma.module';
 import { HealthModule } from './modules/health/health.module';
 import {
   appConfig,
@@ -9,9 +10,9 @@ import {
   redisConfig,
   jwtConfig,
   validateEnv,
-  AppConfigService
+  AppConfigService,
 } from './config';
-import { PrismaModule } from './infrastructure/prisma/prisma.module';
+import {LoggerModule} from "./infrastructure/logger";
 
 @Module({
   imports: [
@@ -19,14 +20,10 @@ import { PrismaModule } from './infrastructure/prisma/prisma.module';
       isGlobal: true,
       cache: true,
       envFilePath: ['.env'],
-      load: [
-          appConfig,
-          databaseConfig,
-          redisConfig,
-          jwtConfig
-      ],
+      load: [appConfig, databaseConfig, redisConfig, jwtConfig],
       validate: validateEnv,
     }),
+    LoggerModule,
     PrismaModule,
     HealthModule,
   ],
