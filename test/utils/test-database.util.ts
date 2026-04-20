@@ -11,6 +11,7 @@ export const TEST_PHONES = {
   APP: [] as string[],
   AUTH: ['09100000099', '09100000088', '09100000077', '09100000066'],
   USERS: ['09100000011', '09111111121', '09155555551'],
+  ADDRESSES: ['09166666661', '09166666662'],
 };
 
 async function cleanByPhones(phones: string[]) {

@@ -5,7 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './infrastructure/prisma/prisma.module';
 import { RedisModule } from './infrastructure/redis/redis.module';
-import { LoggerModule } from './infrastructure/logger/logger.module';
+import { LoggerModule } from './infrastructure/logger';
 import { HealthModule } from './modules/health/health.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RequestIdMiddleware } from './common/middleware/request-id.middleware';
@@ -20,6 +20,7 @@ import {
   AppConfigService,
 } from './config';
 import { UsersModule } from './modules/users/users.module';
+import { AddressesModule } from './modules/addresses/addresses.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { UsersModule } from './modules/users/users.module';
     HealthModule,
     AuthModule,
     UsersModule,
+    AddressesModule,
   ],
   controllers: [AppController],
   providers: [
