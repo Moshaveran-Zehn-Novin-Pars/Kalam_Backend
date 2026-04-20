@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './infrastructure/prisma/prisma.module';
+import { LoggerModule } from './infrastructure/logger/logger.module';
 import { HealthModule } from './modules/health/health.module';
+import { RequestIdMiddleware } from './common/middleware/request-id.middleware';
 import {
   appConfig,
   databaseConfig,
@@ -12,7 +14,6 @@ import {
   validateEnv,
   AppConfigService,
 } from './config';
-import {LoggerModule} from "./infrastructure/logger";
 
 @Module({
   imports: [
@@ -31,4 +32,8 @@ import {LoggerModule} from "./infrastructure/logger";
   providers: [AppService, AppConfigService],
   exports: [AppConfigService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestIdMiddleware).forRoutes('*path');
+  }
+}
