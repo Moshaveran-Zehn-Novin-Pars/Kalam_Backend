@@ -28,6 +28,7 @@ import { CartModule } from './modules/cart/cart.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductsModule } from './modules/products/products.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { ProductsModule } from './modules/products/products.module';
     OrdersModule,
     CategoriesModule,
     ProductsModule,
+    PaymentsModule,
   ],
   controllers: [AppController],
   providers: [
