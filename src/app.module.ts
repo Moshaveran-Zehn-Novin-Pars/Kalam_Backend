@@ -30,6 +30,8 @@ import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductsModule } from './modules/products/products.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { DeliveriesModule } from './modules/deliveries/deliveries.module';
+import { DisputesModule } from './modules/disputes/disputes.module';
+import { ReviewsModule } from './modules/reviews/reviews.module';
 
 @Module({
   imports: [
@@ -56,6 +58,8 @@ import { DeliveriesModule } from './modules/deliveries/deliveries.module';
     ProductsModule,
     PaymentsModule,
     DeliveriesModule,
+    ReviewsModule,
+    DisputesModule,
   ],
   controllers: [AppController],
   providers: [
