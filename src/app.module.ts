@@ -33,6 +33,9 @@ import { DeliveriesModule } from './modules/deliveries/deliveries.module';
 import { DisputesModule } from './modules/disputes/disputes.module';
 import { ReviewsModule } from './modules/reviews/reviews.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { CommissionsModule } from './modules/commissions/commissions.module';
+import { SettlementsModule } from './modules/settlements/settlements.module';
+import { InvoicesModule } from './modules/invoices/invoices.module';
 
 @Module({
   imports: [
@@ -62,6 +65,9 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     ReviewsModule,
     DisputesModule,
     NotificationsModule,
+    CommissionsModule,
+    SettlementsModule,
+    InvoicesModule,
   ],
   controllers: [AppController],
   providers: [
