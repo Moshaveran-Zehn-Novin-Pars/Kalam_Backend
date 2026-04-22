@@ -29,6 +29,7 @@ import { OrdersModule } from './modules/orders/orders.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductsModule } from './modules/products/products.module';
 import { PaymentsModule } from './modules/payments/payments.module';
+import { DeliveriesModule } from './modules/deliveries/deliveries.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { PaymentsModule } from './modules/payments/payments.module';
     CategoriesModule,
     ProductsModule,
     PaymentsModule,
+    DeliveriesModule,
   ],
   controllers: [AppController],
   providers: [

@@ -152,13 +152,18 @@ describe('PaymentsService', () => {
     });
 
     it('should deposit to wallet successfully', async () => {
-      // const result = await service.depositToWallet('user-uuid-123', {
-      //     amount: 5000000,
-      // });
+      await service.depositToWallet('user-uuid-123', {
+        amount: 5000000,
+      });
 
-      expect(mockPrisma.wallet.update).toHaveBeenCalledWith(
+      // $transaction mock calls the fn directly, so wallet.update is called
+      expect(mockPrisma.wallet.update).toHaveBeenCalled();
+      expect(mockPrisma.walletTransaction.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: { balance: { increment: 5000000 } },
+          data: expect.objectContaining({
+            type: TransactionType.DEPOSIT,
+            amount: 5000000,
+          }),
         }),
       );
     });
