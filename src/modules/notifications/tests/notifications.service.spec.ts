@@ -81,7 +81,7 @@ describe('NotificationsService', () => {
 
       expect(mockPrisma.notification.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: expect.objectContaining({ readAt: null }),
+          where: expect.objectContaining({ readAt: { equals: null } }),
         }),
       );
     });
