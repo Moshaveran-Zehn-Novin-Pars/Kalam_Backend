@@ -32,6 +32,7 @@ import { PaymentsModule } from './modules/payments/payments.module';
 import { DeliveriesModule } from './modules/deliveries/deliveries.module';
 import { DisputesModule } from './modules/disputes/disputes.module';
 import { ReviewsModule } from './modules/reviews/reviews.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -60,6 +61,7 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
     DeliveriesModule,
     ReviewsModule,
     DisputesModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [
