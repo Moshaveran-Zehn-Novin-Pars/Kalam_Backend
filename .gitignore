@@ -1,0 +1,100 @@
+# ============================================
+# Dependencies
+# ============================================
+node_modules/
+.pnpm-store/
+.pnp
+.pnp.js
+
+# ============================================
+# Build outputs
+# ============================================
+dist/
+build/
+*.tsbuildinfo
+
+# ============================================
+# Environment variables (CRITICAL!)
+# ============================================
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.staging
+.env.test
+!.env.example
+
+# ============================================
+# Logs
+# ============================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ============================================
+# IDE / Editors
+# ============================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.history/
+
+# ============================================
+# OS files
+# ============================================
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ============================================
+# Testing
+# ============================================
+coverage/
+.nyc_output/
+*.lcov
+.jest-cache/
+
+# ============================================
+# Prisma (generated files)
+# ============================================
+prisma/migrations/dev.db*
+prisma/*.db
+prisma/*.db-journal
+
+# ============================================
+# Docker
+# ============================================
+docker-compose.override.yml
+
+# ============================================
+# Uploads / Storage (local dev)
+# ============================================
+uploads/
+tmp/
+temp/
+
+# ============================================
+# Misc
+# ============================================
+.cache/
+.parcel-cache/
+.next/
+.turbo/
+.eslintcache
+.stylelintcache
+*.pid
+*.seed
+*.pid.lock
+/generated/prisma
