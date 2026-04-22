@@ -29,6 +29,13 @@ import { OrdersModule } from './modules/orders/orders.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductsModule } from './modules/products/products.module';
 import { PaymentsModule } from './modules/payments/payments.module';
+import { DeliveriesModule } from './modules/deliveries/deliveries.module';
+import { DisputesModule } from './modules/disputes/disputes.module';
+import { ReviewsModule } from './modules/reviews/reviews.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { CommissionsModule } from './modules/commissions/commissions.module';
+import { SettlementsModule } from './modules/settlements/settlements.module';
+import { InvoicesModule } from './modules/invoices/invoices.module';
 
 @Module({
   imports: [
@@ -54,6 +61,13 @@ import { PaymentsModule } from './modules/payments/payments.module';
     CategoriesModule,
     ProductsModule,
     PaymentsModule,
+    DeliveriesModule,
+    ReviewsModule,
+    DisputesModule,
+    NotificationsModule,
+    CommissionsModule,
+    SettlementsModule,
+    InvoicesModule,
   ],
   controllers: [AppController],
   providers: [
