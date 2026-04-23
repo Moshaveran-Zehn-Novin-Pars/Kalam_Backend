@@ -36,6 +36,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 import { CommissionsModule } from './modules/commissions/commissions.module';
 import { SettlementsModule } from './modules/settlements/settlements.module';
 import { InvoicesModule } from './modules/invoices/invoices.module';
+import { AiBridgeModule } from './modules/ai-bridge/ai-bridge.module';
 
 @Module({
   imports: [
@@ -68,6 +69,7 @@ import { InvoicesModule } from './modules/invoices/invoices.module';
     CommissionsModule,
     SettlementsModule,
     InvoicesModule,
+    AiBridgeModule,
   ],
   controllers: [AppController],
   providers: [
