@@ -37,6 +37,9 @@ import { CommissionsModule } from './modules/commissions/commissions.module';
 import { SettlementsModule } from './modules/settlements/settlements.module';
 import { InvoicesModule } from './modules/invoices/invoices.module';
 import { AiBridgeModule } from './modules/ai-bridge/ai-bridge.module';
+import { AuctionsModule } from './modules/auctions/auctions.module';
+import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
+import { WarehousesModule } from './modules/warehouses/warehouses.module';
 
 @Module({
   imports: [
@@ -70,6 +73,9 @@ import { AiBridgeModule } from './modules/ai-bridge/ai-bridge.module';
     SettlementsModule,
     InvoicesModule,
     AiBridgeModule,
+    AuctionsModule,
+    SubscriptionsModule,
+    WarehousesModule,
   ],
   controllers: [AppController],
   providers: [

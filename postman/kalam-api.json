@@ -1,120 +1,38 @@
 {
   "info": {
-    "name": "🥬 Kalam API",
-    "description": "B2B wholesale marketplace for fruits and vegetables in Iran",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "name": "Kalam API",
+    "description": "پلتفرم B2B میوه و تره‌بار کلم - مجموعه کامل API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "2.0.0"
   },
   "variable": [
-    {
-      "key": "baseUrl",
-      "value": "http://localhost:3000/api/v1",
-      "type": "string"
-    },
-    {
-      "key": "accessToken",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "refreshToken",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "adminPhone",
-      "value": "09100000001",
-      "type": "string"
-    },
-    {
-      "key": "farmerPhone",
-      "value": "09111111111",
-      "type": "string"
-    },
-    {
-      "key": "buyerPhone",
-      "value": "09222222221",
-      "type": "string"
-    },
-    {
-      "key": "driverPhone",
-      "value": "09333333331",
-      "type": "string"
-    }
+    { "key": "baseUrl", "value": "http://localhost:3000/api/v1" },
+    { "key": "accessToken", "value": "" },
+    { "key": "refreshToken", "value": "" },
+    { "key": "orderId", "value": "" },
+    { "key": "productId", "value": "" },
+    { "key": "categoryId", "value": "" },
+    { "key": "addressId", "value": "" },
+    { "key": "deliveryId", "value": "" },
+    { "key": "disputeId", "value": "" },
+    { "key": "invoiceId", "value": "" },
+    { "key": "auctionId", "value": "" },
+    { "key": "subscriptionId", "value": "" },
+    { "key": "warehouseId", "value": "" }
   ],
   "item": [
-    {
-      "name": "🏥 Health",
-      "item": [
-        {
-          "name": "Health Check",
-          "request": {
-            "method": "GET",
-            "url": "{{baseUrl}}/health",
-            "description": "Check all services health status"
-          }
-        },
-        {
-          "name": "Ping",
-          "request": {
-            "method": "GET",
-            "url": "{{baseUrl}}/health/ping",
-            "description": "Simple ping endpoint"
-          }
-        }
-      ]
-    },
     {
       "name": "🔐 Auth",
       "item": [
         {
-          "name": "Send OTP - Admin",
+          "name": "Send OTP",
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/auth/send-otp",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"phone\": \"{{adminPhone}}\"\n}"
-            },
-            "description": "Send OTP to admin phone"
-          }
-        },
-        {
-          "name": "Send OTP - Farmer",
-          "request": {
-            "method": "POST",
-            "url": "{{baseUrl}}/auth/send-otp",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"phone\": \"{{farmerPhone}}\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Send OTP - Buyer",
-          "request": {
-            "method": "POST",
-            "url": "{{baseUrl}}/auth/send-otp",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"phone\": \"{{buyerPhone}}\"\n}"
+              "raw": "{\"phone\": \"09111111111\"}"
             }
           }
         },
@@ -125,31 +43,24 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "const res = pm.response.json();",
+                  "var res = pm.response.json();",
                   "if (res.data && res.data.accessToken) {",
                   "  pm.collectionVariables.set('accessToken', res.data.accessToken);",
                   "  pm.collectionVariables.set('refreshToken', res.data.refreshToken);",
-                  "  console.log('✅ Tokens saved!');",
+                  "  console.log('✅ Tokens saved');",
                   "}"
-                ],
-                "type": "text/javascript"
+                ]
               }
             }
           ],
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/auth/verify-otp",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"phone\": \"{{adminPhone}}\",\n  \"code\": \"123456\"\n}"
-            },
-            "description": "Verify OTP and get JWT tokens. Token auto-saved to collection variables."
+              "raw": "{\"phone\": \"09111111111\", \"code\": \"123456\"}"
+            }
           }
         },
         {
@@ -159,29 +70,31 @@
               "listen": "test",
               "script": {
                 "exec": [
-                  "const res = pm.response.json();",
+                  "var res = pm.response.json();",
                   "if (res.data && res.data.accessToken) {",
                   "  pm.collectionVariables.set('accessToken', res.data.accessToken);",
                   "  pm.collectionVariables.set('refreshToken', res.data.refreshToken);",
                   "}"
-                ],
-                "type": "text/javascript"
+                ]
               }
             }
           ],
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/auth/refresh",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+              "raw": "{\"refreshToken\": \"{{refreshToken}}\"}"
             }
+          }
+        },
+        {
+          "name": "Get Me",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/auth/me",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
@@ -189,31 +102,13 @@
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/auth/logout",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
-          }
-        },
-        {
-          "name": "Me (Current User)",
-          "request": {
-            "method": "GET",
-            "url": "{{baseUrl}}/auth/me",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         }
       ]
     },
     {
-      "name": "👥 Users",
+      "name": "👤 Users",
       "item": [
         {
           "name": "Get All Users (Admin)",
@@ -221,8 +116,6 @@
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/users?page=1&pageSize=10",
-              "host": ["{{baseUrl}}"],
-              "path": ["users"],
               "query": [
                 { "key": "page", "value": "1" },
                 { "key": "pageSize", "value": "10" },
@@ -230,25 +123,15 @@
                 { "key": "status", "value": "ACTIVE", "disabled": true }
               ]
             },
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
-          "name": "Get User by ID",
+          "name": "Get My Profile",
           "request": {
             "method": "GET",
-            "url": "{{baseUrl}}/users/:id",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
+            "url": "{{baseUrl}}/users/profile",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
@@ -257,59 +140,196 @@
             "method": "PATCH",
             "url": "{{baseUrl}}/users/profile",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"علی\",\n  \"lastName\": \"محمدی\",\n  \"email\": \"ali@example.com\"\n}"
+              "raw": "{\"firstName\": \"علی\", \"lastName\": \"محمدی\", \"email\": \"ali@example.com\"}"
+            }
+          }
+        },
+        {
+          "name": "Suspend User (Admin)",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/users/:userId/suspend",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"reason\": \"تخلف از قوانین\"}"
             }
           }
         }
       ]
     },
     {
-      "name": "📂 Categories",
+      "name": "📍 Addresses",
       "item": [
         {
-          "name": "Get All Categories",
+          "name": "Get My Addresses",
           "request": {
             "method": "GET",
-            "url": "{{baseUrl}}/categories",
-            "description": "Get all active categories with subcategories"
+            "url": "{{baseUrl}}/addresses",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
-          "name": "Get Category by ID",
+          "name": "Create Address",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.id) {",
+                  "  pm.collectionVariables.set('addressId', res.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/addresses",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"انبار اصلی\",\n  \"fullAddress\": \"تهران، خیابان ولیعصر، پلاک ۱۲۳\",\n  \"province\": \"تهران\",\n  \"city\": \"تهران\",\n  \"postalCode\": \"1234567890\",\n  \"lat\": 35.6892,\n  \"lng\": 51.389,\n  \"receiverName\": \"علی محمدی\",\n  \"receiverPhone\": \"09123456789\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Set Default Address",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/addresses/{{addressId}}/set-default",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Delete Address",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/addresses/{{addressId}}",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "🌾 Farmers",
+      "item": [
+        {
+          "name": "Get All Farmers (Public)",
           "request": {
             "method": "GET",
-            "url": "{{baseUrl}}/categories/:id"
+            "url": {
+              "raw": "{{baseUrl}}/farmers?page=1&pageSize=10",
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "pageSize", "value": "10" },
+                { "key": "search", "value": "باغ", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My Farmer Profile",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/farmers/me",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Update Farmer Profile",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/farmers/me",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"businessName\": \"باغ سیب طلایی\",\n  \"farmLocation\": \"اصفهان، شهرضا\",\n  \"iban\": \"IR062960000000100324200001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Verify Farmer (Admin)",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/farmers/:farmerId/verify",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏷️ Categories",
+      "item": [
+        {
+          "name": "Get Categories (Tree)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/categories"
+          }
+        },
+        {
+          "name": "Get Categories (Flat)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/categories/flat"
           }
         },
         {
           "name": "Create Category (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.id) {",
+                  "  pm.collectionVariables.set('categoryId', res.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/categories",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"توت فرنگی\",\n  \"slug\": \"strawberry\",\n  \"commissionRate\": 0.07\n}"
+              "raw": "{\n  \"name\": \"میوه‌جات\",\n  \"slug\": \"fruits\",\n  \"commissionRate\": 0.06,\n  \"order\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Category (Admin)",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/categories/{{categoryId}}",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"میوه‌جات تازه\", \"isActive\": true}"
             }
           }
         }
@@ -319,85 +339,82 @@
       "name": "📦 Products",
       "item": [
         {
-          "name": "Get All Products",
+          "name": "Get Products (Public)",
           "request": {
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/products?page=1&pageSize=10",
-              "host": ["{{baseUrl}}"],
-              "path": ["products"],
               "query": [
                 { "key": "page", "value": "1" },
                 { "key": "pageSize", "value": "10" },
                 { "key": "categoryId", "value": "", "disabled": true },
+                { "key": "qualityGrade", "value": "A", "disabled": true },
                 { "key": "minPrice", "value": "10000", "disabled": true },
                 { "key": "maxPrice", "value": "100000", "disabled": true },
-                { "key": "qualityGrade", "value": "A", "disabled": true },
-                { "key": "search", "value": "سیب", "disabled": true }
+                { "key": "search", "value": "سیب", "disabled": true },
+                { "key": "sortBy", "value": "pricePerUnit", "disabled": true },
+                { "key": "sortOrder", "value": "asc", "disabled": true }
               ]
             }
           }
         },
         {
-          "name": "Get Product by ID",
+          "name": "Get My Products (Farmer)",
           "request": {
             "method": "GET",
-            "url": "{{baseUrl}}/products/:id"
+            "url": "{{baseUrl}}/products/my",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
           "name": "Create Product (Farmer)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.id) {",
+                  "  pm.collectionVariables.set('productId', res.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/products",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryId\": \"CATEGORY_ID_HERE\",\n  \"name\": \"سیب قرمز\",\n  \"slug\": \"red-apple-new\",\n  \"origin\": \"اصفهان\",\n  \"qualityGrade\": \"A\",\n  \"unit\": \"KG\",\n  \"pricePerUnit\": 45000,\n  \"minOrderQty\": 100,\n  \"stockQty\": 5000,\n  \"shelfLifeDays\": 14\n}"
+              "raw": "{\n  \"categoryId\": \"{{categoryId}}\",\n  \"name\": \"سیب قرمز درجه یک\",\n  \"slug\": \"red-apple-grade-a\",\n  \"origin\": \"اصفهان، شهرضا\",\n  \"qualityGrade\": \"A\",\n  \"unit\": \"KG\",\n  \"pricePerUnit\": 45000,\n  \"minOrderQty\": 100,\n  \"stockQty\": 5000,\n  \"shelfLifeDays\": 14\n}"
             }
+          }
+        },
+        {
+          "name": "Approve Product (Admin)",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/products/{{productId}}/approve",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
           "name": "Update Product (Farmer)",
           "request": {
             "method": "PATCH",
-            "url": "{{baseUrl}}/products/:id",
+            "url": "{{baseUrl}}/products/{{productId}}",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"pricePerUnit\": 48000,\n  \"stockQty\": 4500\n}"
+              "raw": "{\"pricePerUnit\": 48000, \"stockQty\": 4000}"
             }
-          }
-        },
-        {
-          "name": "Delete Product (Farmer)",
-          "request": {
-            "method": "DELETE",
-            "url": "{{baseUrl}}/products/:id",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
           }
         }
       ]
@@ -410,12 +427,7 @@
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/cart",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
@@ -424,18 +436,12 @@
             "method": "POST",
             "url": "{{baseUrl}}/cart/items",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"productId\": \"PRODUCT_ID_HERE\",\n  \"quantity\": 200\n}"
+              "raw": "{\"productId\": \"{{productId}}\", \"quantity\": 200}"
             }
           }
         },
@@ -443,20 +449,14 @@
           "name": "Update Cart Item",
           "request": {
             "method": "PATCH",
-            "url": "{{baseUrl}}/cart/items/:productId",
+            "url": "{{baseUrl}}/cart/items/{{productId}}",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"quantity\": 300\n}"
+              "raw": "{\"quantity\": 300}"
             }
           }
         },
@@ -464,13 +464,8 @@
           "name": "Remove from Cart",
           "request": {
             "method": "DELETE",
-            "url": "{{baseUrl}}/cart/items/:productId",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
+            "url": "{{baseUrl}}/cart/items/{{productId}}",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
@@ -478,12 +473,7 @@
           "request": {
             "method": "DELETE",
             "url": "{{baseUrl}}/cart",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         }
       ]
@@ -497,74 +487,63 @@
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/orders?page=1&pageSize=10",
-              "host": ["{{baseUrl}}"],
-              "path": ["orders"],
               "query": [
                 { "key": "page", "value": "1" },
                 { "key": "pageSize", "value": "10" },
                 { "key": "status", "value": "PENDING_PAYMENT", "disabled": true }
               ]
             },
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
-          }
-        },
-        {
-          "name": "Get Order by ID",
-          "request": {
-            "method": "GET",
-            "url": "{{baseUrl}}/orders/:id",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
           "name": "Create Order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.id) {",
+                  "  pm.collectionVariables.set('orderId', res.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/orders",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"addressId\": \"ADDRESS_ID_HERE\",\n  \"paymentMethod\": \"ONLINE_GATEWAY\",\n  \"requestedDeliveryAt\": \"2026-05-01T10:00:00Z\",\n  \"notes\": \"لطفاً محصولات تازه باشن\"\n}"
+              "raw": "{\n  \"addressId\": \"{{addressId}}\",\n  \"paymentMethod\": \"ONLINE_GATEWAY\",\n  \"notes\": \"لطفاً تازه باشد\"\n}"
             }
+          }
+        },
+        {
+          "name": "Get Order Detail",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/orders/{{orderId}}",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
           "name": "Cancel Order",
           "request": {
             "method": "POST",
-            "url": "{{baseUrl}}/orders/:id/cancel",
+            "url": "{{baseUrl}}/orders/{{orderId}}/cancel",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"reason\": \"تغییر برنامه\"\n}"
+              "raw": "{\"reason\": \"تغییر برنامه\"}"
             }
           }
         },
@@ -572,35 +551,16 @@
           "name": "Confirm Order (Farmer)",
           "request": {
             "method": "POST",
-            "url": "{{baseUrl}}/orders/:id/confirm",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
+            "url": "{{baseUrl}}/orders/{{orderId}}/confirm",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
           "name": "Get All Orders (Admin)",
           "request": {
             "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/admin/orders?page=1&pageSize=20",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "orders"],
-              "query": [
-                { "key": "page", "value": "1" },
-                { "key": "pageSize", "value": "20" },
-                { "key": "status", "value": "", "disabled": true }
-              ]
-            },
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
+            "url": "{{baseUrl}}/orders/admin",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         }
       ]
@@ -613,33 +573,30 @@
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/payments/wallet",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Deposit to Wallet",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/payments/wallet/deposit",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"amount\": 10000000}"
+            }
           }
         },
         {
           "name": "Get Wallet Transactions",
           "request": {
             "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/payments/wallet/transactions?page=1&pageSize=10",
-              "host": ["{{baseUrl}}"],
-              "path": ["payments", "wallet", "transactions"],
-              "query": [
-                { "key": "page", "value": "1" },
-                { "key": "pageSize", "value": "10" }
-              ]
-            },
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
+            "url": "{{baseUrl}}/payments/wallet/transactions",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
@@ -648,19 +605,29 @@
             "method": "POST",
             "url": "{{baseUrl}}/payments/initiate",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"orderId\": \"ORDER_ID_HERE\",\n  \"method\": \"ONLINE_GATEWAY\",\n  \"gateway\": \"ZARINPAL\"\n}"
+              "raw": "{\n  \"orderId\": \"{{orderId}}\",\n  \"method\": \"WALLET\"\n}"
             }
+          }
+        },
+        {
+          "name": "Release Escrow (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/payments/order/{{orderId}}/release-escrow",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Refund Payment (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/payments/order/{{orderId}}/refund",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         }
       ]
@@ -669,49 +636,95 @@
       "name": "🚚 Deliveries",
       "item": [
         {
+          "name": "Get All Deliveries (Admin)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/deliveries",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
           "name": "Get My Deliveries (Driver)",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/deliveries/my",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
-          "name": "Get Delivery by Order ID",
-          "request": {
-            "method": "GET",
-            "url": "{{baseUrl}}/deliveries/order/:orderId",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
+          "name": "Create Delivery (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.id) {",
+                  "  pm.collectionVariables.set('deliveryId', res.data.id);",
+                  "}"
+                ]
               }
-            ]
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/deliveries/order/{{orderId}}",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Assign Driver (Admin)",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/deliveries/{{deliveryId}}/assign-driver",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"driverId\": \"driver-uuid-here\"}"
+            }
+          }
+        },
+        {
+          "name": "Update Delivery Status (Driver)",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/deliveries/{{deliveryId}}/status?status=PICKING_UP",
+              "query": [{ "key": "status", "value": "PICKING_UP" }]
+            },
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
           }
         },
         {
           "name": "Update Location (Driver)",
           "request": {
             "method": "POST",
-            "url": "{{baseUrl}}/deliveries/:id/location",
+            "url": "{{baseUrl}}/deliveries/{{deliveryId}}/location",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"lat\": 35.6892,\n  \"lng\": 51.3890\n}"
+              "raw": "{\"lat\": 35.695, \"lng\": 51.395}"
+            }
+          }
+        },
+        {
+          "name": "Confirm Delivery (Driver)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/deliveries/{{deliveryId}}/confirm",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"proofImage\": \"https://example.com/proof.jpg\",\n  \"recipientName\": \"علی محمدی\"\n}"
             }
           }
         }
@@ -726,107 +739,599 @@
             "method": "POST",
             "url": "{{baseUrl}}/reviews",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"orderId\": \"ORDER_ID_HERE\",\n  \"targetId\": \"USER_ID_HERE\",\n  \"rating\": 5,\n  \"comment\": \"محصول با کیفیت و تحویل به موقع\",\n  \"type\": \"BUYER_REVIEWS_FARMER\"\n}"
+              "raw": "{\n  \"orderId\": \"{{orderId}}\",\n  \"targetId\": \"farmer-user-id-here\",\n  \"rating\": 5,\n  \"comment\": \"محصول عالی بود\",\n  \"type\": \"BUYER_REVIEWS_FARMER\"\n}"
             }
           }
         },
         {
-          "name": "Get Farmer Reviews",
+          "name": "Get User Reviews (Public)",
           "request": {
             "method": "GET",
-            "url": "{{baseUrl}}/reviews/farmer/:farmerId",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
+            "url": "{{baseUrl}}/reviews/user/:userId"
+          }
+        },
+        {
+          "name": "Get Farmer Reviews (Public)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/reviews/farmer/:farmerId"
           }
         }
       ]
     },
     {
-      "name": "🏛 Admin",
+      "name": "⚠️ Disputes",
       "item": [
         {
-          "name": "Dashboard Stats",
-          "request": {
-            "method": "GET",
-            "url": "{{baseUrl}}/admin/dashboard",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
+          "name": "Create Dispute",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.id) {",
+                  "  pm.collectionVariables.set('disputeId', res.data.id);",
+                  "}"
+                ]
               }
-            ]
-          }
-        },
-        {
-          "name": "Get All Users",
+            }
+          ],
           "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{baseUrl}}/admin/users?page=1&pageSize=20",
-              "host": ["{{baseUrl}}"],
-              "path": ["admin", "users"],
-              "query": [
-                { "key": "page", "value": "1" },
-                { "key": "pageSize", "value": "20" },
-                { "key": "role", "value": "", "disabled": true },
-                { "key": "status", "value": "", "disabled": true }
-              ]
-            },
+            "method": "POST",
+            "url": "{{baseUrl}}/disputes",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              }
-            ]
-          }
-        },
-        {
-          "name": "Suspend User",
-          "request": {
-            "method": "PATCH",
-            "url": "{{baseUrl}}/admin/users/:id/suspend",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"reason\": \"تخلف از قوانین پلتفرم\"\n}"
+              "raw": "{\n  \"orderId\": \"{{orderId}}\",\n  \"reason\": \"محصول ناقص بود\",\n  \"description\": \"محصول با توضیحات مطابقت نداشت\"\n}"
             }
           }
         },
         {
-          "name": "Approve Product",
+          "name": "Get My Disputes",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/disputes/my",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Get All Disputes (Admin)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/disputes",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Update Dispute Status (Admin)",
           "request": {
             "method": "PATCH",
-            "url": "{{baseUrl}}/admin/products/:id/approve",
+            "url": {
+              "raw": "{{baseUrl}}/disputes/{{disputeId}}/status?status=UNDER_REVIEW",
+              "query": [{ "key": "status", "value": "UNDER_REVIEW" }]
+            },
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Resolve Dispute (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/disputes/{{disputeId}}/resolve",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resolution\": \"استرداد ۵۰٪ مبلغ به خریدار\"}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔔 Notifications",
+      "item": [
+        {
+          "name": "Get My Notifications",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/notifications?page=1&pageSize=10",
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "pageSize", "value": "10" },
+                { "key": "unreadOnly", "value": "true", "disabled": true }
+              ]
+            },
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Get Unread Count",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notifications/unread-count",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Mark as Read",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/notifications/:id/read",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Mark All as Read",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notifications/read-all",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "💰 Commissions",
+      "item": [
+        {
+          "name": "Get Commission Rules (Admin)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/commissions",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Get Commission Stats (Admin)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/commissions/stats?from=2026-01-01&to=2026-12-31",
+              "query": [
+                { "key": "from", "value": "2026-01-01" },
+                { "key": "to", "value": "2026-12-31" }
+              ]
+            },
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Create Commission Rule (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/commissions",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": \"{{categoryId}}\",\n  \"rate\": 0.06,\n  \"validFrom\": \"2026-01-01\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏦 Settlements",
+      "item": [
+        {
+          "name": "Get All Settlements (Admin)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/settlements",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Get My Settlements (Farmer)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/settlements/my",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Calculate Settlement (Admin)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/settlements/calculate?farmerId=farmer-uuid&from=2026-04-01&to=2026-04-30",
+              "query": [
+                { "key": "farmerId", "value": "farmer-uuid" },
+                { "key": "from", "value": "2026-04-01" },
+                { "key": "to", "value": "2026-04-30" }
+              ]
+            },
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Create Settlement (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/settlements",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"farmerId\": \"farmer-uuid-here\",\n  \"periodStart\": \"2026-04-01\",\n  \"periodEnd\": \"2026-04-30\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Process Payout (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/settlements/:settlementId/payout",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "🧾 Invoices",
+      "item": [
+        {
+          "name": "Get All Invoices (Admin)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/invoices",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Get Invoice by Order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.id) {",
+                  "  pm.collectionVariables.set('invoiceId', res.data.id);",
+                  "}"
+                ]
               }
-            ]
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/invoices/order/{{orderId}}",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Get Invoice Data (PDF)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/invoices/{{invoiceId}}/data",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Generate Invoice (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/invoices/order/{{orderId}}/generate",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "🤖 AI",
+      "item": [
+        {
+          "name": "Price Prediction (Public)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/ai/price-prediction",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"historicalDays\": 30,\n  \"forecastDays\": 7\n}"
+            }
+          }
+        },
+        {
+          "name": "Quality Detection",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/ai/quality-detection",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"imageUrl\": \"https://example.com/product.jpg\",\n  \"productType\": \"apple\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Recommendations",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/ai/recommendations?count=10&context=homepage",
+              "query": [
+                { "key": "count", "value": "10" },
+                { "key": "context", "value": "homepage" }
+              ]
+            },
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Chat (Prompt to Cart)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/ai/chat",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"message\": \"سیب قرمز با کیفیت می‌خوام ۲۰۰ کیلو\"}"
+            }
+          }
+        },
+        {
+          "name": "Demand Forecast (Farmer)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/ai/demand-forecast",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔨 Auctions",
+      "item": [
+        {
+          "name": "Get All Auctions (Public)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/auctions",
+              "query": [{ "key": "status", "value": "ACTIVE", "disabled": true }]
+            }
+          }
+        },
+        {
+          "name": "Create Auction (Farmer)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.id) {",
+                  "  pm.collectionVariables.set('auctionId', res.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auctions",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"startingPrice\": 10000,\n  \"minBidIncrement\": 1000,\n  \"startTime\": \"2026-05-01T10:00:00Z\",\n  \"endTime\": \"2026-05-03T10:00:00Z\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Place Bid",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auctions/{{auctionId}}/bid",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"amount\": 15000}"
+            }
+          }
+        },
+        {
+          "name": "End Auction (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auctions/{{auctionId}}/end",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔄 Subscriptions",
+      "item": [
+        {
+          "name": "Get My Subscriptions",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/subscriptions",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Create Subscription",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.id) {",
+                  "  pm.collectionVariables.set('subscriptionId', res.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/subscriptions",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"addressId\": \"{{addressId}}\",\n  \"quantity\": 200,\n  \"frequency\": \"WEEKLY\",\n  \"startDate\": \"2026-05-01\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Pause Subscription",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/subscriptions/{{subscriptionId}}/pause",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Resume Subscription",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/subscriptions/{{subscriptionId}}/resume",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Cancel Subscription",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/subscriptions/{{subscriptionId}}/cancel",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏭 Warehouses",
+      "item": [
+        {
+          "name": "Get All Warehouses (Public)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/warehouses",
+              "query": [
+                { "key": "hasRefrigeration", "value": "true", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Warehouse Detail",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/warehouses/{{warehouseId}}"
+          }
+        },
+        {
+          "name": "Create Warehouse (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.data && res.data.id) {",
+                  "  pm.collectionVariables.set('warehouseId', res.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/warehouses",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"سردخانه مرکزی تهران\",\n  \"address\": \"تهران، جاده مخصوص\",\n  \"lat\": 35.6892,\n  \"lng\": 51.389,\n  \"totalCapacityKg\": 10000,\n  \"hasRefrigeration\": true,\n  \"tempMin\": 2,\n  \"tempMax\": 8,\n  \"pricePerKgPerDay\": 500\n}"
+            }
+          }
+        },
+        {
+          "name": "Reserve Warehouse Space",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/warehouses/{{warehouseId}}/reserve",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantityKg\": 500,\n  \"startDate\": \"2026-05-01\",\n  \"endDate\": \"2026-05-30\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get My Reservations",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/warehouses/my-reservations",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "Cancel Reservation",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/warehouses/reservations/:id/cancel",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "❤️ Health",
+      "item": [
+        {
+          "name": "Ping",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health/ping"
+          }
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health"
           }
         }
       ]
