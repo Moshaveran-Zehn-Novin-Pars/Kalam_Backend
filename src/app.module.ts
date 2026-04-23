@@ -40,6 +40,7 @@ import { AiBridgeModule } from './modules/ai-bridge/ai-bridge.module';
 import { AuctionsModule } from './modules/auctions/auctions.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { WarehousesModule } from './modules/warehouses/warehouses.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -76,6 +77,7 @@ import { WarehousesModule } from './modules/warehouses/warehouses.module';
     AuctionsModule,
     SubscriptionsModule,
     WarehousesModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [
